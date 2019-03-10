@@ -75,7 +75,6 @@ def get_line_points(width, height, step, scale):
                         a1 = (theta + omega - period * 2 * np.pi) * A_value
                         a = a1 / T
                         if abs(a) < width / scale:
-                            print('hi', end='\r')
                             points.append((a, b))
                 else:
                     f_cos.write(str(b) + ' ' + str(omega_cos) + '\n')
