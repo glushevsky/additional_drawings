@@ -1,24 +1,25 @@
 import numpy as np
 import math
-import sys
-import matplotlib.pyplot as plt
-import scipy.misc as smp
+# import sys
+# import matplotlib.pyplot as plt
+import datetime
+# import scipy.misc as smp
 
 
-def formula(x):
-    return x**2
+# def formula(x):
+#     return x**2
 
 
-def calculate(f, half_width, half_height):
-    # Create a 1024x1024x3 array of 8 bit unsigned integers
-    data = np.full((2*half_width, 2*half_height, 3), fill_value=[255,255,255], dtype=np.uint8 )
-    vertical_edge = abs(half_height)
-    for x in np.arange(-half_width, half_width):
-        y = formula(x)
-        if y <= vertical_edge:
-            data[-y + half_width, half_height + x] = [254,0,0]
-            f.write(str(x) + ' ' + str(y) + '\n')
-    return data
+# def calculate(f, half_width, half_height):
+#     # Create a 1024x1024x3 array of 8 bit unsigned integers
+#     data = np.full((2*half_width, 2*half_height, 3), fill_value=[255,255,255], dtype=np.uint8 )
+#     vertical_edge = abs(half_height)
+#     for x in np.arange(-half_width, half_width):
+#         y = formula(x)
+#         if y <= vertical_edge:
+#             data[-y + half_width, half_height + x] = [254,0,0]
+#             f.write(str(x) + ' ' + str(y) + '\n')
+#     return data
 
 
 # получение значения А
@@ -87,8 +88,8 @@ def get_line_points(width, height, step, scale):
     return points
 
 
-def get_status(count, len_points):
-    return str(count/len_points*100) + '%'
+# def get_status(count, len_points):
+#     return str(count/len_points*100) + '%'
 
 
 # создание сетки
@@ -123,63 +124,22 @@ def transfer_points_to_canvas(width, height, data, points, scale):
 def create_image(width, height, points, scale):
     data = create_grid(width, height, scale)
     data = transfer_points_to_canvas(width, height, data, points, scale)
-    img = smp.toimage(data)  # Create a PIL image
+    # img = smp.toimage(data)  # Create a PIL image
+    print('Paint!')
+    from PIL import Image
+    img = Image.fromarray(data, mode='RGB')  # replace z with zz and it will just produce a black image
+    img.save('result.png')
     img.show()
 
 
 def main(width, height, step):
     scale = 100  # масштаб
+    time_start = datetime.datetime.now()
     points = get_line_points(width, height, step, scale)
     create_image(width, height, points, scale)
-    # unzipped_data = zip(*points)
-    # first_list = list(list(unzipped_data)[0])
-    # second_list = list(list(unzipped_data)[1])
-    # print(len(first_list), len(second_list))
-    # print(list(list(unzipped_data))[0])
+    print('create img in ', datetime.datetime.now() - time_start)
     print(len(points))
-    print('Paint!')
-    # for ee in second_list:
-    #     print(ee)
-    # print('hi!', end='\r')
-    # count = 0
-    # len_points = len(points)
-    # for el in points:
-    #     count += 1
-    #     print(get_status(count, len_points))
-    #     plt.plot(el[0], el[1], 'ro')
-    # plt.axis([0, 6, 0, 20])
-    # plt.show()
-    ##############################################
-    # figure_object = plt.figure()  # creating Figure object
-    # plt.axis([-10.0, 10.0, -10.0, 10.0])  # setting the rendering area
-    # plt.title('graph for dewpdd')  # creating header
-    # plt.grid()  # grid display
-    # count = 0
-    # len_points = len(points)
-    # for el in points:
-    #     count += 1
-    #     print(get_status(count, len_points), type(el[0]), type(el[1]))
-        # plt.scatter(el[0], el[1], s=1, marker='.', c=0)
-    # for line in file0:
-    #     tmp = line.split(' ')
-    #     print "%.2f" % (float(tmp[2]) / iter * 100), '%'
-    #     plt.scatter(float(tmp[0]), float(tmp[1]), s=1, marker='.', c=0)
-    # plt.show()
-    # print('Done!')
-    ##############################################
-    # f = open('tgdata.dat', 'a')
-    # data = calculate(f, 200, 200)
-    # f.close()
-    # create_image(width, height, points, scale)
-    # data = create_grid(width, height)
-    # data = np.full((2 * width + 1, 2 * height + 1, 3), fill_value=[255, 255, 255], dtype=np.uint8)
-    # print(data[0])
-    # data[512,512] = [254,0,0]       # Makes the middle pixel red
-    # data[512,513] = [0,0,255]       # Makes the next pixel blue
-    # print('__________________')
-    # print(data[:,0])
-    # img = smp.toimage(data)       # Create a PIL image
-    # img.show()                      # View in default viewer
-    # print(len(points))
+
+
 if __name__ == "__main__":
     main(500, 250, 0.0001)
