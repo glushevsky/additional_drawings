@@ -1,4 +1,4 @@
-from a1_functions import *
+from lambda1_functions import *
 
 
 # создание сетки
@@ -20,9 +20,10 @@ def transfer_points_to_canvas(width, height, data, points, scale):
     for point in points:
         a_coord = int(round(point[0]*scale))
         b_coord = int(round(point[1]*scale))
+        color = point[2]
         # print(a_coord, b_coord, height - b_coord, width + a_coord)
         try:
-            data[height - b_coord][width + a_coord] = [255, 0, 0]
+            data[height - b_coord][width + a_coord] = color
             # data[height - b_coord][width + a_coord] = [255, 0, 0]
         except IndexError:
             pass

@@ -31,7 +31,7 @@ def get_cos_omega(b, w, f, T, A, error):
         return False, theta_denominator
 
 
-# получение всех точек кривых
+# получение всех точек кривых с цветом
 def get_line_points(w, f, T, error, width, height, step, scale):
     # w = 12.0
     # f = 0.0
@@ -47,15 +47,15 @@ def get_line_points(w, f, T, error, width, height, step, scale):
             if is_cos_exists:
                 if abs(omega_cos) <= 1.0:
                     omega = math.acos(omega_cos)
-                    for period in range(0, 12):  # прохождение 10*2 шагов периодичности по Omega
+                    for period in range(0, 12 + 12*round(T/60)):  # прохождение 10*2 шагов периодичности по Omega
                         a1 = (theta + omega + period*2*np.pi)*A_value
                         a = a1/T
                         if abs(a) < width/scale:
-                            points.append((a, b))
+                            points.append((a, b, [255, 0, 0]))
                         a1 = (theta + omega - period * 2 * np.pi) * A_value
                         a = a1 / T
                         if abs(a) < width / scale:
-                            points.append((a, b))
+                            points.append((a, b, [255, 0, 0]))
                 else:
                     f_cos.write(str(b) + ' ' + str(omega_cos) + '\n')
                     # print('Incorrect value for omega cos: ', omega_cos)
