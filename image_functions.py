@@ -31,12 +31,11 @@ def transfer_points_to_canvas(width, height, data, points, scale):
 
 
 # генерация изображения
-def create_image(width, height, points, scale):
+def create_image(width, height, points, scale, img_name):
     data = create_grid(width, height, scale)
     data = transfer_points_to_canvas(width, height, data, points, scale)
-    # img = smp.toimage(data)  # Create a PIL image
     print('Paint!')
     from PIL import Image
     img = Image.fromarray(data, mode='RGB')  # replace z with zz and it will just produce a black image
-    img.save('result.png')
+    img.save(img_name)
     img.show()

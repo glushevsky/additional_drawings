@@ -1,5 +1,4 @@
-import numpy as np
-import math
+from common_functions import *
 
 
 # получение значения А
@@ -51,11 +50,11 @@ def get_line_points(w, f, T, error, width, height, step, scale):
                         a1 = (theta + omega + period*2*np.pi)*A_value
                         a = a1/T
                         if abs(a) < width/scale:
-                            points.append((a, b, [255, 0, 0]))
+                            points.append((a, b, [255, 0, 0], theta, omega + period*2*np.pi))
                         a1 = (theta + omega - period * 2 * np.pi) * A_value
                         a = a1 / T
                         if abs(a) < width / scale:
-                            points.append((a, b, [255, 0, 0]))
+                            points.append((a, b, [255, 0, 0], theta, omega - period*2*np.pi))
                 else:
                     f_cos.write(str(b) + ' ' + str(omega_cos) + '\n')
                     # print('Incorrect value for omega cos: ', omega_cos)
