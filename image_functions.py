@@ -22,7 +22,7 @@ def transfer_points_to_canvas(width, height, data, points, scale):
     for point in points:
         a_coord = int(round(round(point[0], int(math.log10(scale)))*scale, 0))
         # a_coord = int(round(point[0]*scale))
-        print('a transfer ===> ', point[0], round(point[0], int(math.log10(scale))), a_coord)
+        # print('a transfer ===> ', point[0], round(point[0], int(math.log10(scale))), a_coord)
         b_coord = int(round(point[1]*scale))
         color = point[2]
         # print(a_coord, b_coord, height - b_coord, width + a_coord)
@@ -39,11 +39,14 @@ def create_image(width, height, points, scale, img_name):
     data = create_grid(width, height, scale)
 
     # mini-lines
-    data[:, width + int(round(0.01 * scale))] = [150, 150, 150]
-    data[:, width - int(round(0.01 * scale))] = [150, 150, 150]
-    data[height + int(round(0.01 * scale)), :] = [150, 150, 150]
-    data[height - int(round(0.01 * scale)), :] = [150, 150, 150]
-
+    is_exists = True
+    try:
+        data[:, width + int(round(0.5 * scale))] = [150, 150, 150]
+        data[:, width - int(round(0.5 * scale))] = [150, 150, 150]
+        data[height + int(round(0.5 * scale)), :] = [150, 150, 150]
+        data[height - int(round(0.5 * scale)), :] = [150, 150, 150]
+    except:
+        is_exists = False
     data = transfer_points_to_canvas(width, height, data, points, scale)
     print('Width, height, scale: ', width, height, scale)
     print('Data array size: ', data.shape)
@@ -51,19 +54,18 @@ def create_image(width, height, points, scale, img_name):
     from PIL import Image
     img = Image.fromarray(data, mode='RGB')  # replace z with zz and it will just produce a black image
     draw = ImageDraw.Draw(img)
-    font_fname = 'C:/Users/Kambala/PycharmProjects/additional_drawings/fonts/FreeSansBold.ttf'
+    font_fname = 'fonts/arial.ttf'
     font_size = 20
     font = ImageFont.truetype(font_fname, font_size)
     draw.text((width, height), "0", font=font, fill='rgb(0, 0, 0)')
-    draw.text((width + scale/100, height), "0.01", font=font, fill='rgb(0, 0, 0)')
-    draw.text((width, height - scale / 100), "0.01", font=font, fill='rgb(0, 0, 0)')
+    if is_exists:
+        draw.text((width + scale/2, height), "0.5", font=font, fill='rgb(0, 0, 0)')
+        draw.text((width, height - scale / 2), "0.5", font=font, fill='rgb(0, 0, 0)')
     # draw.text((width + scale/2, height), "0.5", font=font, fill='rgb(0, 0, 0)')
     # draw.text((width + scale, height), "1", font=font, fill='rgb(0, 0, 0)')
-    img_path = 'C:/Users/Kambala/PycharmProjects/additional_drawings/a_images/' + img_name
 
     iwidth, iheight = img.size
     print('Image size: ', iwidth, iheight)
 
-    img.save(img_path)
-    print(img_path)
-    img.show()
+    img.save(img_name)
+    # img.show()
