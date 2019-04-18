@@ -62,10 +62,10 @@ def get_common_points(w, f, T, error, width, height, step, scale, m_step):
         points.append((a, get_b_null_case(a, w, f, T), [0, 255, 0]))
     # m case
     w_sin, cos, w_big_sin, big_cos = get_utility_m_case(w, f, T)
-    for chunk in range(0, 15):
+    for chunk in range(0, 5):
         print('chunk: ', chunk + 1)
         chunk_time = datetime.datetime.now()
-        for m in np.arange(0.001 + 1.0*chunk, 1.001 + 1.0*chunk, m_step):
+        for m in np.arange(0.001 + 3.0*chunk, 3.001 + 3.0*chunk, m_step):
             first_part, second_part = get_parts_m_case(T, m, w_sin, cos, w_big_sin, big_cos)
             b = get_b_m_case(T, m, first_part, second_part)
             a = get_a_m_case(b, w, T, m, first_part)

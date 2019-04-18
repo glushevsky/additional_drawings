@@ -37,6 +37,7 @@ def get_line_points(w, f, T, error, width, height, step, scale):
     # T = 162.07963
     # error = 0.0001
     theta = get_theta(w*T)
+    print('theta ', theta)
     points = []
     f_cos = open('cos_error.txt', 'w')
     for b in np.arange(-height/scale, height/scale, step):
