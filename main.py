@@ -19,23 +19,28 @@ def main(scale, w, f, T, error, width, height, step, m_step):
     # create_image(width, height, a1_line_sign_points, scale, 'a_sign_' + name_part + '.png')
     # print('create img in ', datetime.datetime.now() - time_start)
     # time_start = datetime.datetime.now()
-    common_points = get_common_points(w, f, T, error, width, height, step, scale, m_step)
-    print(len(common_points))
-    img_path = 'common_images/' + 'common_' + name_part + '.png'
-    create_image(width, height, common_points, scale, img_path)
-    print('create img in ', datetime.datetime.now() - time_start)
+    # common_points = get_common_points(w, f, T, error, width, height, step, scale, m_step)
+    # print('create points in ', datetime.datetime.now() - time_start)
+    # print(len(common_points))
+    # img_path = 'common_images/' + 'common_' + name_part + '.png'
+    # time_start = datetime.datetime.now()
+    # create_image(width, height, common_points, scale, img_path)
+    # print('create img in ', datetime.datetime.now() - time_start)
 
 
 if __name__ == "__main__":
-    scale = 2000  # масштаб
+    scale = 1600  # масштаб
     w = 1.0  # параметр омега-малое
     f = 0.0  # параметр фи
-    T = 1000.0 + 3.0*math.pi/2.0  # запаздывание
+    # 5.0 + 1901.0 * math.pi / 6.0
+    # 5.0 + 1907.0*math.pi/6.0
+    # 5.0 + 1925.0*math.pi/6.0
+    T = 5.0 + 1907.0*math.pi/6.0  # запаздывание
     error = 0.0001  # величина погрешности от нуля (лучше задавать равной шагу)
-    width = 1200  # половина ширины картинки
-    height = 1200  # половина высоты картинки
+    width = 1000  # половина ширины картинки
+    height = 1000  # половина высоты картинки
     step = 0.0001  # шаг
-    m_step = 0.000001  # шаг (для мю)
+    m_step = 0.0000001  # шаг (для мю)
     print('масштаб x', scale)
     print('w ', w)
     print('f ', f)

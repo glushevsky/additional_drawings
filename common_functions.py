@@ -54,28 +54,58 @@ def get_a_w_case(b, w, T, first_part):
     return a
 
 
+def update_chunk(points, left_edge, right_edge, chunk, m_step, width, height, scale, T, w, w_sin, cos, w_big_sin, big_cos):
+    for m in np.arange(left_edge + 3.0 * chunk, right_edge + 3.0 * chunk, m_step):
+        first_part, second_part = get_parts_m_case(T, m, w_sin, cos, w_big_sin, big_cos)
+        b = get_b_m_case(T, m, first_part, second_part)
+        a = get_a_m_case(b, w, T, m, first_part)
+        a1 = a*T / 3.0
+        if abs(a1) <= width / scale and abs(b) <= height / scale:
+            if abs(b) < 0.0001:
+                print ('-->', a1, a, T*a, ' -- ', b)
+            points.append((a1, b, [255, 0, 0]))
+    return points
+
+
 def get_common_points(w, f, T, error, width, height, step, scale, m_step):
     points = []
     # m_step = 0.000001
     # zero case
     for a in np.arange(-width / scale, width / scale, step):
-        points.append((a, get_b_null_case(a, w, f, T), [0, 255, 0]))
+        a1 = a*T / 3.0
+        points.append((a1, get_b_null_case(a, w, f, T), [0, 255, 0]))
     # m case
     w_sin, cos, w_big_sin, big_cos = get_utility_m_case(w, f, T)
     for chunk in range(0, 5):
         print('chunk: ', chunk + 1)
         chunk_time = datetime.datetime.now()
-        for m in np.arange(0.001 + 3.0*chunk, 3.001 + 3.0*chunk, m_step):
-            first_part, second_part = get_parts_m_case(T, m, w_sin, cos, w_big_sin, big_cos)
-            b = get_b_m_case(T, m, first_part, second_part)
-            a = get_a_m_case(b, w, T, m, first_part)
-            if abs(a) <= width / scale and abs(b) <= height / scale:
-                points.append((a, b, [255, 0, 0]))
+        points = update_chunk(points, 0.001, 1.001, chunk, m_step, width, height, scale, T, w, w_sin, cos, w_big_sin,
+                     big_cos)
+        print('---1')
+        points = update_chunk(points, 1.001, 2.001, chunk, m_step, width, height, scale, T, w, w_sin, cos, w_big_sin,
+                              big_cos)
+        print('---2')
+        points = update_chunk(points, 2.001, 3.001, chunk, m_step, width, height, scale, T, w, w_sin, cos, w_big_sin,
+                              big_cos)
+        print('---3')
+        # for m in np.arange(0.001 + 3.0*chunk, 1.501 + 3.0*chunk, m_step):
+        #     first_part, second_part = get_parts_m_case(T, m, w_sin, cos, w_big_sin, big_cos)
+        #     b = get_b_m_case(T, m, first_part, second_part)
+        #     a = get_a_m_case(b, w, T, m, first_part)
+        #     if abs(a) <= width / scale and abs(b) <= height / scale:
+        #         points.append((a, b, [255, 0, 0]))
+        # for m in np.arange(1.501 + 3.0*chunk, 3.001 + 3.0*chunk, m_step):
+        #     first_part, second_part = get_parts_m_case(T, m, w_sin, cos, w_big_sin, big_cos)
+        #     b = get_b_m_case(T, m, first_part, second_part)
+        #     a = get_a_m_case(b, w, T, m, first_part)
+        #     if abs(a) <= width / scale and abs(b) <= height / scale:
+        #         points.append((a, b, [255, 0, 0]))
         print(datetime.datetime.now() - chunk_time)
     # w case
     first_part, second_part = get_parts_w_case(w, f, T)
     b = get_b_w_case(T, w, first_part, second_part)
     a = get_a_w_case(b, w, T, first_part)
-    if abs(a) <= width / scale and abs(b) <= height / scale:
-        points.append((a, b, [0, 0, 255]))
+    a1 = a*T / 3.0
+    if abs(a1) <= width / scale and abs(b) <= height / scale:
+        points.append((a1, b, [0, 0, 255]))
     return points
