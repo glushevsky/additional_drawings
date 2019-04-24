@@ -59,11 +59,11 @@ def update_chunk(points, left_edge, right_edge, chunk, m_step, width, height, sc
         first_part, second_part = get_parts_m_case(T, m, w_sin, cos, w_big_sin, big_cos)
         b = get_b_m_case(T, m, first_part, second_part)
         a = get_a_m_case(b, w, T, m, first_part)
-        a1 = a*T / 3.0
-        if abs(a1) <= width / scale and abs(b) <= height / scale:
-            if abs(b) < 0.0001:
-                print ('-->', a1, a, T*a, ' -- ', b)
-            points.append((a1, b, [255, 0, 0]))
+        a2 = a*T/30.0
+        # if abs(b) < 0.0001 and abs(a2) < 10.0:
+        #     print('-->', a2, a * 50.0 / 3.0, ' -- ', b)
+        if abs(a2) <= width / scale and abs(b) <= height / scale:
+            points.append((a2, b, [255, 0, 0]))
     return points
 
 
@@ -72,8 +72,8 @@ def get_common_points(w, f, T, error, width, height, step, scale, m_step):
     # m_step = 0.000001
     # zero case
     for a in np.arange(-width / scale, width / scale, step):
-        a1 = a*T / 3.0
-        points.append((a1, get_b_null_case(a, w, f, T), [0, 255, 0]))
+        a2 = a*T/30.0
+        points.append((a2, get_b_null_case(a, w, f, T), [0, 255, 0]))
     # m case
     w_sin, cos, w_big_sin, big_cos = get_utility_m_case(w, f, T)
     for chunk in range(0, 5):
@@ -105,7 +105,7 @@ def get_common_points(w, f, T, error, width, height, step, scale, m_step):
     first_part, second_part = get_parts_w_case(w, f, T)
     b = get_b_w_case(T, w, first_part, second_part)
     a = get_a_w_case(b, w, T, first_part)
-    a1 = a*T / 3.0
-    if abs(a1) <= width / scale and abs(b) <= height / scale:
-        points.append((a1, b, [0, 0, 255]))
+    a2 = a*T/30.0
+    if abs(a2) <= width / scale and abs(b) <= height / scale:
+        points.append((a2, b, [0, 0, 255]))
     return points

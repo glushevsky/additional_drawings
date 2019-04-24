@@ -50,23 +50,19 @@ def get_line_points(w, f, T, error, width, height, step, scale):
                 if abs(omega_cos) <= 1.0:
                     omega = math.acos(omega_cos)
                     for period in range(0, 12 + 12*round(T/60)):  # прохождение 10*2 шагов периодичности по Omega
+                        # print (period)
                         a1 = (theta + omega + period*2*np.pi)*A_value
-                        # a2 = 50.0*a1/T
-                        # print(a1/3.0, width/scale)
-                        a1 = a1/3.0
-                        if abs(a1) < width*3.0 / scale:
-                            ttt += 1
+                        a2 = a1 / 30.0
+                        if abs(a2) < width / scale:
                             # if abs(b) < 0.0001:
-                            # print('===>', a1, ' == ', b)
-                            points.append((a1/3.0, b, [255, 0, 0], theta, omega + period*2*np.pi))
+                            #     print('===>', a2, a1 / T, a1, ' == ', b)
+                            points.append((a2, b, [255, 0, 0], theta, omega + period * 2 * np.pi))
                         a1 = (theta + omega - period * 2 * np.pi) * A_value
-                        a1 = a1/3.0
-                        # a2 = 50.0*a1/T
-                        if abs(a1) < width*3.0 / scale:
-                            ttt += 1
+                        a2 = a1 / 30.0
+                        if abs(a2) < width / scale:
                             # if abs(b) < 0.0001:
-                            # print('===>', a1, ' == ', b)
-                            points.append((a1, b, [255, 0, 0], theta, omega - period*2*np.pi))
+                            #     print('===>', a2, a1 / T, a1, ' == ', b)
+                            points.append((a2, b, [255, 0, 0], theta, omega - period * 2 * np.pi))
                 else:
                     f_cos.write(str(b) + ' ' + str(omega_cos) + '\n')
                     # print('Incorrect value for omega cos: ', omega_cos)

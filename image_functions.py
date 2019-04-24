@@ -6,13 +6,17 @@ import PIL.ImageFont as ImageFont
 # создание сетки
 def create_grid(width, height, scale):
     data = np.full((2 * height + 1, 2 * width + 1, 3), fill_value=[255, 255, 255], dtype=np.uint8)
-    scale_fit = int(scale/3.0)
-    for i in range(0, width, scale_fit):
-        data[:, width + i] = [150, 150, 150]
-        data[:, width - i] = [150, 150, 150]
-    for i in range(0, height, scale):
-        data[height + i] = [150, 150, 150]
-        data[height - i] = [150, 150, 150]
+    scale_fit = int(scale/10.0)
+    gr_step_fit = int(round(scale_fit))  # int(round(0.1 * scale_fit))
+    while gr_step_fit < width:
+        data[:, width + gr_step_fit] = [150, 150, 150]
+        data[:, width - gr_step_fit] = [150, 150, 150]
+        gr_step_fit = gr_step_fit + int(round(scale_fit))  # int(round(0.1 * scale_fit))
+    gr_step = int(round(0.1 * scale))
+    while gr_step < height:
+        data[height + gr_step, :] = [150, 150, 150]
+        data[height - gr_step, :] = [150, 150, 150]
+        gr_step = gr_step + int(round(0.1 * scale))
     data[height] = [0, 0, 0]
     data[:, width] = [0, 0, 0]
     return data
@@ -43,17 +47,17 @@ def create_image(width, height, points, scale, img_name):
     is_exists_05 = True
     is_exists_001 = True
     is_exists = []
-    scale_fit = int(scale/3.0)
-    gr_step_fit = int(round(0.1 * scale_fit))
-    while gr_step_fit < width:
-        data[:, width + gr_step_fit] = [150, 150, 150]
-        data[:, width - gr_step_fit] = [150, 150, 150]
-        gr_step_fit = gr_step_fit + int(round(0.1 * scale_fit))
-    gr_step = int(round(0.1 * scale))
-    while gr_step < height:
-        data[height + gr_step, :] = [150, 150, 150]
-        data[height - gr_step, :] = [150, 150, 150]
-        gr_step = gr_step + int(round(0.1 * scale))
+    scale_fit = int(scale/30.0)
+    # gr_step_fit = int(round(0.1 * scale_fit))
+    # while gr_step_fit < width:
+    #     data[:, width + gr_step_fit] = [150, 150, 150]
+    #     data[:, width - gr_step_fit] = [150, 150, 150]
+    #     gr_step_fit = gr_step_fit + int(round(0.1 * scale_fit))
+    # gr_step = int(round(0.1 * scale))
+    # while gr_step < height:
+    #     data[height + gr_step, :] = [150, 150, 150]
+    #     data[height - gr_step, :] = [150, 150, 150]
+    #     gr_step = gr_step + int(round(0.1 * scale))
     # try:
     #     data[:, width + int(round(0.5 * scale))] = [150, 150, 150]
     #     data[:, width - int(round(0.5 * scale))] = [150, 150, 150]
@@ -83,7 +87,7 @@ def create_image(width, height, points, scale, img_name):
     #     draw.text((width + scale/2, height), "0.5", font=font, fill='rgb(0, 0, 0)')
     #     draw.text((width, height - scale / 2), "0.5", font=font, fill='rgb(0, 0, 0)')
     # if is_exists_001:
-    draw.text((width + scale_fit/10, height), "0.1", font=font, fill='rgb(0, 0, 0)')
+    draw.text((width + 3*scale_fit, height), "3", font=font, fill='rgb(0, 0, 0)')
     draw.text((width, height - scale / 10), "0.1", font=font, fill='rgb(0, 0, 0)')
     # draw.text((width + scale/2, height), "0.5", font=font, fill='rgb(0, 0, 0)')
     # draw.text((width + scale, height), "1", font=font, fill='rgb(0, 0, 0)')
